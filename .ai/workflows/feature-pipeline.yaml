@@ -1,0 +1,26 @@
+name: feature-pipeline
+steps:
+  - id: analyze
+    agent: general-purpose
+    input: user_request
+    output: analysis.md
+
+  - id: design
+    agent: design-agent
+    input: analysis.md
+    output: design-spec.md
+
+  - id: implement
+    agent: task-executor
+    input:
+      - design-spec.md
+      - repo_context
+    output: implementation-report.md
+
+  - id: review
+    agent: code-reviewer
+    input:
+      - design-spec.md
+      - diff
+      - implementation-report.md
+    output: code-review.md
